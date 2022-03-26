@@ -17,14 +17,13 @@ const cors = require('cors');
 
 
 // Routes
+const dinSearchRoutes = require('./routes/dinSearchRoute');
+const usersRoutes = require('./routes/usersRoute');
+const medicationsRoutes = require('./routes/medicationsRoute');
 
-
-
-
-
-
-
-
+app.use('/drug-identification-serch', dinSearchRoutes);
+app.use('/users', usersRoutes);
+app.use('/medications', medicationsRoutes);
 
 
 
