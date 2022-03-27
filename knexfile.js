@@ -9,7 +9,7 @@ module.exports = {
             host: '127.0.0.1',
             user: 'root',
             password: 'rootroot',
-            database: 'my-med-list-db',
+            database: 'my_med_list_db',
             charset: 'utf8',
         },
     },
