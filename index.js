@@ -21,11 +21,11 @@ const dinSearchRoutes = require('./routes/dinSearchRoute');
 const usersRoutes = require('./routes/usersRoute');
 const medicationsRoutes = require('./routes/medicationsRoute');
 
-app.use('/drug-identification-serch', dinSearchRoutes);
+app.use('/drug-identification-search', dinSearchRoutes);
 app.use('/users', usersRoutes);
 app.use('/medications', medicationsRoutes);
 
 
 
 // server Listening for requests on port 8080
-app.listen(8080, () => { console.log('My Med List server is running on port: 8080') });
+app.listen(8080, () => { console.log('My Med List server is running on http://localhost:8080') });

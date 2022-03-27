@@ -6,7 +6,7 @@ const dinSearchService = require('../services/dinSearchService');
 
 router
     .route('/:din')
-    .get(dinSearchService.getActiveIngredient);
+    .get(dinSearchService.getActiveIngredientByDIN);
 
 
 
