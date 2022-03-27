@@ -21,9 +21,9 @@ exports.up = function (knex) {
                 .inTable('user')
                 .onUpdate('CASCADE')
                 .onDelete('CASCADE');
-            table.integer('DIN').notNullable();
-            table.string('active_ingredient').notNullable();
-            table.string('instuctions').notNullable();
+            table.string('din', 8).notNullable(); // maybe make string instead of integer because of leading zeros? (and limit to 8 chars)
+            table.string('medication').notNullable();
+            table.string('instructions').notNullable(); // put limits on characters??
         })
 };
 
