@@ -6,7 +6,7 @@ const cors = require('cors');
 // Middleware:
 
 // - will need the following bodyParser to access/parse request.body of POST requests
-// app.use(express.json());
+app.use(express.json());
 
 // - will need to allow cross origin resource sharing
 // app.use(cors());

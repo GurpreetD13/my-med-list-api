@@ -23,15 +23,13 @@ exports.getActiveIngredientByDIN = (req, res) => {
             if (!resp.data[0]) {
                 res.status(400).json(`${req.params.din} DIN does not exist. Please enter a valid DIN.`);
             };
-            // 2. use id (drug_code) to get active ingredient
-            axios
-                .get(`${HCapiUrlBase}/activeingredient/?id=${resp.data[0].drug_code}`)
-                .then(resp => {
-                    const { ingredient_name, strength, strength_unit } = resp.data[0];
+            // 2. use id (drug_code) to get active ingredient, and handle response in next promise
+            return axios.get(`${HCapiUrlBase}/activeingredient/?id=${resp.data[0].drug_code}`)
+        })
+        .then(resp => {
+            const { ingredient_name, strength, strength_unit } = resp.data[0];
 
-                    res.status(200).json(`${ingredient_name} ${strength} ${strength_unit}`);
-                })
-                .catch(err => console.log(err));
+            res.status(200).json((`${ingredient_name} ${strength} ${strength_unit}`).toLowerCase());
         })
         .catch(err => console.log(err));
 };

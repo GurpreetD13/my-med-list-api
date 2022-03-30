@@ -8,7 +8,8 @@ exports.up = function (knex) {
         .createTable('user', (table) => {
             table.increments('id').primary();
             table.string('name').notNullable();
-            table.string('user_name').notNullable();
+            table.string('user_name').notNullable(); // 'user_name' must be unique, but how to keep it string no spaces
+            table.unique('user_name');
             table.string('password').notNullable();
         })
         .createTable('medication', (table) => {
