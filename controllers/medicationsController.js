@@ -24,15 +24,24 @@ exports.addMed = (req, res) => {
             res.status(201).json(`Successfully added medication: ${medication}`)
         })
         .catch(err => {
-            res.status(500).json(`Error adding medication ${medication}`)
+            res.status(500).json(`Error adding medication ${medication}. Error: ${err}`)
         });
 };
 
 
 exports.removeMed = (req, res) => {
-
-
-
+    knex.from('medication')
+        .where({ id: req.params.medicationId })
+        .delete()
+        .then((numberOfRowsDeleted) => {
+            if (!numberOfRowsDeleted) {
+                return res.status(400).json(`Unable to delete medication`)
+            }
+            res.status(200).json(`Successfully deleted medication`)
+        })
+        .catch(err => {
+            res.status(400).json(`Error deleting medication. Error: ${err}`)
+        });
 };
 
 
@@ -44,7 +53,7 @@ exports.updateInstructions = (req, res) => {
     knex.from('medication')
         .where({
             id: req.params.medicationId,
-            // add some validation so that only logged in user can alter own medications and not anyone else's
+            // add some validation so that only logged in user can alter own medications and not anyone else's (also for delete)
             // and? user_id: req.body.user_id
         })
         .update({ instructions: req.body.instructions })
@@ -52,6 +61,6 @@ exports.updateInstructions = (req, res) => {
             res.status(200).json(`Successfully updated instructions for medication`)
         })
         .catch(err => {
-            res.status(400).json(`Error updating instructions for medication`)
+            res.status(400).json(`Error updating instructions for medication. Error: ${err}`)
         });
 };
