@@ -11,7 +11,7 @@ router
 router
     .route('/:medicationId')
     .delete(medicationsController.removeMed)
-    .put(medicationsController.editMed);
+    .put(medicationsController.updateInstructions);
 
 
 

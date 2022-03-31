@@ -10,14 +10,15 @@ exports.addUser = (req, res) => {
         return res.status(400).json('Please make sure following fields are not empty: name, user name, password')
     }
     knex.from('user')
-        // .insert({
-        //     name: name,
-        //     user_name: user_name,
-        //     password: password,
-        // })
-        .insert(req.body) // by default returns newly created id
-        .then((id) => { 
-            res.status(201).json(`Successfully created new user id: ${id}`) })
+        .insert({
+            name: name,
+            user_name: user_name,
+            password: password,
+        })
+        // .insert(req.body) // does same as above insert, but above more explict. Insert by default returns newly created id
+        .then((id) => {
+            res.status(201).json(`Successfully created new user: ${user_name}`)
+        })
         .catch(err => {
             res.status(500).json(`Error creating user ${user_name}`)
         });
