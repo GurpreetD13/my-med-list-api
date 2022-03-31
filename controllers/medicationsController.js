@@ -8,10 +8,10 @@ exports.addMed = (req, res) => {
 
     const { user_id, din, medication, instructions } = req.body;
 
-    // if (!din || !medication || !instructions) {
-    //     return res.status(400).json('Please make sure following fields are not empty: din, medication, instructions')
-    // }
-    
+    if (!din || !medication || !instructions) {
+        return res.status(400).json('Please make sure following fields are not empty: din, medication, instructions')
+    }
+
     knex.from('medication')
         .insert({
             user_id: user_id,
@@ -31,9 +31,27 @@ exports.addMed = (req, res) => {
 
 exports.removeMed = (req, res) => {
 
+
+
 };
 
 
 exports.updateInstructions = (req, res) => {
 
+    if (!req.body.instructions) {
+        return res.status(400).json('Please make sure following fields are not empty: instructions')
+    }
+    knex.from('medication')
+        .where({
+            id: req.params.medicationId,
+            // add some validation so that only logged in user can alter own medications and not anyone else's
+            // and? user_id: req.body.user_id
+        })
+        .update({ instructions: req.body.instructions })
+        .then((numberOfRowsUpdated) => {
+            res.status(200).json(`Successfully updated instructions for medication`)
+        })
+        .catch(err => {
+            res.status(400).json(`Error updating instructions for medication`)
+        });
 };
