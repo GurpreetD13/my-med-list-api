@@ -5,8 +5,12 @@ const usersController = require('../controllers/usersController')
 // '/users/' route
 
 router
-    .route('/')
+    .route('/signup')
     .post(usersController.addUser);
+
+router
+    .route('/login')
+    .post(usersController.loginUser);
 
 router
     .route('/:userId/medications')

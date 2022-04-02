@@ -11,8 +11,8 @@ app.use(express.json());
 // - will need to allow cross origin resource sharing
 // app.use(cors());
 
-
-
+// Authorization
+const authorize = require('./middleware/authorize');
 
 
 
@@ -23,7 +23,7 @@ const medicationsRoutes = require('./routes/medicationsRoute');
 
 app.use('/drug-identification-search', dinSearchRoutes);
 app.use('/users', usersRoutes);
-app.use('/medications', medicationsRoutes);
+app.use('/medications', medicationsRoutes); // add authorize HERE
 
 
 
