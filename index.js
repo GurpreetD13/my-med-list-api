@@ -9,7 +9,7 @@ const cors = require('cors');
 app.use(express.json());
 
 // - will need to allow cross origin resource sharing
-// app.use(cors());
+app.use(cors());
 
 // Authorization
 const authorize = require('./middleware/authorize');

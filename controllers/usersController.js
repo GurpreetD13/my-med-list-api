@@ -1,6 +1,6 @@
 const knex = require('knex')(require('../knexfile').development);
 const jwt = require('jsonwebtoken');
-// const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 
 
 
@@ -44,14 +44,14 @@ exports.loginUser = (req, res) => {
         .then((user) => {
 
             // const isPasswordCorrect = bcrypt.compareSync(password, user.password)
-            if (password === user.password) {
-            // if (!isPasswordCorrect) {
+            if (password !== user.password) {
+                // if (!isPasswordCorrect) {
                 return res.status(400).json('Invalid password')
             }
             // and create auth token, add user's name, and send back to client
-            const token = jwt.sign({ name: user.name }, 'secretKeyString')
+            const token = jwt.sign({ name: user.name, id: user.id }, 'secretKeyString')
 
-            res.status(200).json(token);
+            res.status(200).json({ token: token });
         })
         .catch(err => {
             res.status(400).json(`Invalid user name`)
@@ -70,4 +70,10 @@ exports.medList = (req, res) => {
         .catch(err => {
             res.send(500).json(`Error getting Med List for user_id: ${req.params.userId}. Error: ${err}`)
         });
+};
+
+
+// GET user info (id, name) once user logged in from token payload (could also get from user table)
+exports.getUserInfo = (req, res) => {
+    res.json(req.decoded);
 };

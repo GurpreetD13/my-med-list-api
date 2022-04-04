@@ -8,7 +8,7 @@ module.exports = (req, res, next) => {
     if (!req.header) {
         return res.status(400).json('Please login');
     }
-    const token = req.header.split(' ')[1];
+    const token = req.headers.authorization.split(' ')[1];
 
     // 2. verify token, if unverified: send error else
     // 3. if verified: decode token, call next()
