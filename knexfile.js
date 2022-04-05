@@ -1,8 +1,7 @@
-// Update config settings with database.
+// Update config settings with database either on devleopment or production.
 
 
-// const connections = {
-module.exports = {
+const connections = {
 
 
     development: {
@@ -21,7 +20,7 @@ module.exports = {
     },
 };
 
-// module.exports =
-//     process.env.NODE_ENV === 'production'
-//         ? connections.production
-//         : connections.development;
+module.exports =
+    process.env.NODE_ENV === 'production'
+        ? connections.production
+        : connections.development;

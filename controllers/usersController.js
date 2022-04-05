@@ -1,4 +1,4 @@
-const knex = require('knex')(require('../knexfile').development);
+const knex = require('knex')(require('../knexfile'));
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
@@ -12,13 +12,13 @@ exports.addUser = (req, res) => {
         return res.status(400).json('Please make sure following fields are not empty: name, user name, password')
     }
     // use bcrypt to hash password
-    // const hashedPassword = bcrypt.hashSync(password, 10);
+    const hashedPassword = bcrypt.hashSync(password, 10);
 
     knex.from('user')
         .insert({
             name: name,
             user_name: user_name,
-            password: password, // replace with hashedPassword
+            password: hashedPassword, // replace with hashedPassword
         })
         // .insert(req.body) // does same as above insert, but above more explict. Insert by default returns newly created id
         .then((id) => {
@@ -43,9 +43,9 @@ exports.loginUser = (req, res) => {
         .first()
         .then((user) => {
 
-            // const isPasswordCorrect = bcrypt.compareSync(password, user.password)
-            if (password !== user.password) {
-                // if (!isPasswordCorrect) {
+            const isPasswordCorrect = bcrypt.compareSync(password, user.password)
+            
+            if (!isPasswordCorrect) {
                 return res.status(400).json('Invalid password')
             }
             // and create auth token, add user's name, and send back to client

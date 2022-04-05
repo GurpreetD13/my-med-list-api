@@ -15,11 +15,11 @@ router
 
 router
     .route('/:userId/medications')
-    .get(usersController.medList); // add authorize
+    .get(authorize, usersController.medList);
 
 router
     .route('/current')
-    .get(authorize, usersController.getUserInfo); // add authorize
+    .get(authorize, usersController.getUserInfo);
 
 
 
