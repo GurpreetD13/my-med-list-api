@@ -23,7 +23,7 @@ const medicationsRoutes = require('./routes/medicationsRoute');
 
 app.use('/drug-identification-search', dinSearchRoutes);
 app.use('/users', usersRoutes);
-app.use('/medications', medicationsRoutes); // add authorize HERE
+app.use('/medications', authorize, medicationsRoutes);
 
 
 

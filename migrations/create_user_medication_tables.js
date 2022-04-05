@@ -8,7 +8,7 @@ exports.up = function (knex) {
         .createTable('user', (table) => {
             table.increments('id').primary();
             table.string('name').notNullable();
-            table.string('user_name').notNullable(); // 'user_name' must be unique, but how to keep it string no spaces
+            table.string('user_name').notNullable(); // 'user_name' must be unique
             table.unique('user_name');
             table.string('password').notNullable();
         })
@@ -22,9 +22,9 @@ exports.up = function (knex) {
                 .inTable('user')
                 .onUpdate('CASCADE')
                 .onDelete('CASCADE');
-            table.string('din', 8).notNullable(); // maybe make string instead of integer because of leading zeros? (and limit to 8 chars)
+            table.string('din', 8).notNullable();
             table.string('medication').notNullable();
-            table.string('instructions').notNullable(); // put limits on characters??
+            table.string('instructions').notNullable();
         })
 };
 

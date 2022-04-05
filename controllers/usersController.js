@@ -18,9 +18,9 @@ exports.addUser = (req, res) => {
         .insert({
             name: name,
             user_name: user_name,
-            password: hashedPassword, // replace with hashedPassword
+            password: hashedPassword,
         })
-        // .insert(req.body) // does same as above insert, but above more explict. Insert by default returns newly created id
+        // Insert by default returns newly created id
         .then((id) => {
             res.status(201).json(`Successfully created new user: ${user_name}`)
         })
@@ -44,11 +44,11 @@ exports.loginUser = (req, res) => {
         .then((user) => {
 
             const isPasswordCorrect = bcrypt.compareSync(password, user.password)
-            
+
             if (!isPasswordCorrect) {
                 return res.status(400).json('Invalid password')
             }
-            // and create auth token, add user's name, and send back to client
+            // and create auth token, add user's name, id, and send back to client
             const token = jwt.sign({ name: user.name, id: user.id }, 'secretKeyString')
 
             res.status(200).json({ token: token });
@@ -62,7 +62,7 @@ exports.loginUser = (req, res) => {
 // GET All medication (List) from medication table for a specific user_id (foreign key) from the req.paramas in request ('/users/:userId/medications')
 exports.medList = (req, res) => {
     knex.from('medication') // table. Can be written as knex('medication') too
-        .select('*') // automatically selects all even if not specified
+        .select('*') // automatically selects all fields even if not specified
         .where({ user_id: req.params.userId })
         .then((medList) => {
             res.status(200).json(medList)
