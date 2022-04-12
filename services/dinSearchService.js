@@ -27,9 +27,13 @@ exports.getActiveIngredientByDIN = (req, res) => {
             return axios.get(`${HCapiUrlBase}/activeingredient/?id=${resp.data[0].drug_code}`)
         })
         .then(resp => {
-            const { ingredient_name, strength, strength_unit } = resp.data[0];
-
-            res.status(200).json((`${ingredient_name} ${strength} ${strength_unit}`).toLowerCase());
+            let medication = '';
+            resp.data.forEach(med => {
+                const { ingredient_name, strength, strength_unit } = med;
+                const tempMed = (`${ingredient_name} ${strength} ${strength_unit} `).toLowerCase()
+                medication += tempMed;
+            })
+            res.status(200).json(medication);
         })
         .catch(err => console.log(err));
 };
