@@ -8,17 +8,18 @@ exports.addMed = (req, res) => {
     if (!din || !medication || !instructions) {
         return res.status(400).json('Please make sure following fields are not empty: din, medication, instructions')
     }
-
+    const newMed = {
+        // get user_id by decoding JWT payload
+        user_id: req.decoded.id,
+        din: din,
+        medication: medication,
+        instructions: instructions
+    }
     knex.from('medication')
-        .insert({
-            // get user_id by decoding JWT payload
-            user_id: req.decoded.id,
-            din: din,
-            medication: medication,
-            instructions: instructions
-        })
+        .insert(newMed)
         .then((id) => {
-            res.status(201).json(`Successfully added medication: ${medication}`)
+            newMed.id = id[0];
+            res.status(201).json({message: `Successfully added medication: ${medication}`, newMed})
         })
         .catch(err => {
             res.status(500).json(`Error adding medication ${medication}. Error: ${err}`)
@@ -46,14 +47,15 @@ exports.updateInstructions = (req, res) => {
 
 
 exports.removeMed = (req, res) => {
+    const id = req.params.medicationId;
     knex.from('medication')
-        .where({ id: req.params.medicationId })
+        .where({ id: id })
         .delete()
         .then((numberOfRowsDeleted) => {
             if (!numberOfRowsDeleted) {
                 return res.status(400).json(`Unable to delete medication`)
             }
-            res.status(200).json(`Successfully deleted medication`)
+            res.status(200).json({ message: `Successfully deleted medication`, id: id })
         })
         .catch(err => {
             res.status(400).json(`Error deleting medication. Error: ${err}`)
